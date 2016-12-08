@@ -1,0 +1,69 @@
+<!-- Validation failure messages -->
+<% if @charge.errors.any? %>
+  <% @charge.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <center><h3>Add Charge</h3></center>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <form action="/create_charge" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Input for payer_id -->
+      <input type="hidden" id="payer_id" name="payer_id" placeholder="Payer" class="form-control" value="<%= current_user.id %>">
+
+      <!-- Label and input for event_id -->
+      <div class="form-group">
+        <label for="event_id" class="control-label">
+          What event was this charge for?
+        </label>
+
+
+        <%= select_tag(:event_id, options_from_collection_for_select(Event.all, :id, :event_name, @charge.event_id), :class => "form-control") %>
+        or <a href="/events/new">create a new event</a>
+      </div>
+
+      <!-- Label and input for ower_id -->
+      <div class="form-group">
+        <label for="ower_id" class="control-label">
+          Who owes you?
+        </label>
+
+        <%= select_tag(:ower_id, options_from_collection_for_select(User.all, :id, :username, @charge.ower_id), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for amount -->
+      <div class="form-group">
+        <label for="amount" class="control-label">
+          How much does this person owe you?
+        </label>
+
+        <input type="number" step="0.01" min="0" id="amount" name="amount" placeholder="0.00" class="form-control" value="<%= @charge.amount %>">
+      </div>
+
+      <!-- Label and input for charge_description -->
+      <div class="form-group">
+        <label for="charge_description" class="control-label">
+          What was this charge for?
+        </label>
+
+        <input type="text" id="charge_description" name="charge_description" placeholder="Briefly describe this charge" class="form-control" value="<%= @charge.charge_description %>">
+      </div>
+
+      <button class="btn btn-success">
+        Charge It!
+      </button>
+      or
+      <a href="/charges">Cancel</a>
+    </form>
+  </div>
+</div>
