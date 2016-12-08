@@ -76,7 +76,7 @@ class EventsController < ApplicationController
         redirect_to(:back, :notice => "This event has been paid up and/or deleted.")
       end
     else
-      redirect_to("/events", :notice => "This event still has active charges.")
+      redirect_to("/events", :alert => "This event still has active charges.")
     end
   end
 end
