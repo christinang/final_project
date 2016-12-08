@@ -47,7 +47,7 @@ class ChargesController < ApplicationController
     save_status = @charge.save
 
     if save_status == true
-      redirect_to(:back, :notice => "Charge updated successfully.")
+      redirect_to("/charges", :notice => "Charge updated successfully.")
     else
       render("charges/edit.html.erb")
     end
