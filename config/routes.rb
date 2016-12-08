@@ -26,7 +26,6 @@ Rails.application.routes.draw do
 
   # READ
   get "/charges", :controller => "charges", :action => "index"
-  get "/charges/:id", :controller => "charges", :action => "show"
 
   # UPDATE
   get "/charges/:id/edit", :controller => "charges", :action => "edit"

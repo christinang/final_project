@@ -5,12 +5,6 @@ class ChargesController < ApplicationController
     render("charges/index.html.erb")
   end
 
-  def show
-    @charge = Charge.find(params[:id])
-
-    render("charges/show.html.erb")
-  end
-
   def new
     @charge = Charge.new
 
@@ -29,7 +23,7 @@ class ChargesController < ApplicationController
     save_status = @charge.save
 
     if save_status == true
-      redirect_to(:back, :notice => "Charge created successfully.")
+      redirect_to("/charges", :notice => "Charge created successfully.")
     else
       render("charges/new.html.erb")
     end
