@@ -60,7 +60,7 @@ class EventsController < ApplicationController
     save_status = @event.save
 
     if save_status == true
-      redirect_to(:back, :notice => "Event updated successfully.")
+      redirect_to("/events", :notice => "Event updated successfully.")
     else
       render("events/edit.html.erb")
     end
