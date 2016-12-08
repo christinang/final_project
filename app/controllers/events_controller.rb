@@ -14,11 +14,11 @@ class EventsController < ApplicationController
     totals_by_other_user = Hash.new {|h,k| h[k] = 0}
 
     @event.charges.each do |charge|
-    if charge.ower.id == current_user.id
-    totals_by_other_user[charge.payer_id] -= charge.amount
-    elsif charge.payer.id == current_user.id
-    totals_by_other_user[charge.ower_id] += charge.amount
-    end
+      if charge.ower.id == current_user.id
+        totals_by_other_user[charge.payer_id] -= charge.amount
+      elsif charge.payer.id == current_user.id
+        totals_by_other_user[charge.ower_id] += charge.amount
+      end
     end
 
     @totals_by_other_user = totals_by_other_user
@@ -69,12 +69,14 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id])
 
-    @event.destroy
-
-    if URI(request.referer).path == "/events/#{@event.id}"
-      redirect_to("/", :notice => "This event has been paid up and/or deleted.")
-    else
-      redirect_to(:back, :notice => "This event has been paid up and/or deleted.")
+    if @event.destroy
+      if URI(request.referer).path == "/events/#{@event.id}"
+        redirect_to("/", :notice => "This event has been paid up and/or deleted.")
+      else
+        redirect_to(:back, :notice => "This event has been paid up and/or deleted.")
+      end
+    else 
+      render("/events", :notice => "This event still has active charges.")
     end
   end
 end
